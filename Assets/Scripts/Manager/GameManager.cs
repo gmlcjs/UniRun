@@ -1,0 +1,108 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager instance;             //싱글턴을 할당할 전역변수
+
+    public bool isGameOver = false;                 //게임오버 상태
+    [SerializeField] TextMeshProUGUI scoreText;     //점수를 출력한 TextUI
+    [SerializeField] GameObject titleText;          //게임 시작할 때 보여지는 오브젝트
+    [SerializeField] TextMeshProUGUI recordText;    //게임 종료 후 최고 기록 출력
+    public GameObject gameOverUI;                   //게임오버일 때 활성화 될 오브젝트
+
+    public static int score = 0;                                  //게임 점수
+    public static bool isGameStart = false;         //게임 시작 여부 확인 변수
+
+    //게임 시작과 인스턴스를 할당하고
+    void Awake()
+    {
+        //싱글턴 변수 instance가 null인지 확인
+        if (instance == null)
+        {
+            //자기자신을 할당
+            instance = this;
+        }
+        else
+        {
+            //자신의 게임 오브젝트를 파괴
+            Destroy(gameObject);
+        }
+
+        if (isGameStart)
+        {
+            titleText.SetActive(false);
+            scoreText.gameObject.SetActive(true);
+        }
+        // 게임시작시 불필요한 배경 삭제
+        GameObject.Find("StartBackground").SetActive(false);
+        score = 0;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
+        //게임오버상태에서 게임을 재시작할 수 있게 처리
+        if (isGameOver && Input.GetMouseButtonDown(0))
+        {
+            //게임오버 상태에서 마우스 좌클릭으로 씬 재시작
+            SceneManager.LoadScene("MainScene");
+        }
+    }
+
+    /// <summary>
+    /// StartButton클릭 시 isGameStart변수를 변경
+    /// </summary>
+    public void OnClickStartButton()
+    {
+        isGameStart = true;
+    }
+
+    /// <summary>
+    /// 점수를 증가시키는 메서드
+    /// </summary>
+    /// <param name="newScore"></param>
+    public void AddScore(int newScore)
+    {
+        //게임오버가 아니라면 처리 진행
+        if (!isGameOver)
+        {
+            //점수 증가
+            score += newScore;
+            //점수 ui표시
+            scoreText.text = $"Score : {score}";
+        }
+    }
+
+    /// <summary>
+    /// 플레이어 캐릭터 사망 시 게임오버를 실행하는 메서드
+    /// </summary>
+    public void OnPlayerDead()
+    {
+        isGameOver = true;
+
+        //PlayerPrefs를 활용해서 최고 점수를 기록하고
+        //현재 점수가 최고 점수 이상이면 교체하는 로직 구현
+        //최고 점수를 가져와서 변수로 담아두는 역할
+        int bestScore = PlayerPrefs.GetInt("BestRecord");
+        if (score > bestScore)
+        {
+            //최고 점수 갱신
+            bestScore = score;
+
+            //PlayerPrefs에 최고 점수를 갱신함
+            PlayerPrefs.SetInt("BestRecord", bestScore);
+        }
+        recordText.text = "Best Record : " + bestScore;
+
+        gameOverUI.SetActive(true);
+    }
+}
