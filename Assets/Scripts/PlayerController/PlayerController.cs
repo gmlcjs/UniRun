@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     int jumpCount = 0;                      //���� ������ Ȱ���� ����
     bool isGrounded = false;                //�������� �ƴ��� Ȯ���ϴ� ����
-    bool isDead = false;                    //�÷��̾��� ������� ����
+    public bool isDead = false;                    //�÷��̾��� ������� ����
 
     Rigidbody2D rb;                         //�÷��̾��� �����ٵ�
     Animator anim;                          //�÷��̾��� �ִϸ�����

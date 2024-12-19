@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScrollingObject : MonoBehaviour
 {
-    public float speed = 10f;           //바닥의 이동 속도
+    private float speed = GameManager.speed;           //바닥의 이동 속도
 
     // Update is called once per frame
     void Update()
