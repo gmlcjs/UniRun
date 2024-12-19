@@ -19,10 +19,10 @@ public class GameManager : MonoBehaviour
 
     // 기본설정
     public static float speed = 10; // 스피드(이속 설정)
-    public static float jumpForce = 400f; // 점프힘
+    public static float jumpForce = 500f; // 점프힘
 
     // 라운드 변경 스코어
-    public static int labelUp = 3; // 10 스코어부터 변경
+    public static int labelUp = 10; // 10 스코어부터 변경
 
     public static bool isGameStart = false;         //게임 시작 여부 확인 변수
     [SerializeField] BackGroundLoop backGroundLoop;

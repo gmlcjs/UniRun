@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public AudioClip deathClip;             //�׾��� �� ����� �����Ŭ��
-    public float jumpForce = 700f;          //���� �ϴ� ��
+    public AudioClip deathClip;
+    public float jumpForce = GameManager.jumpForce;
 
     int jumpCount = 0;                      //���� ������ Ȱ���� ����
     bool isGrounded = false;                //�������� �ƴ��� Ȯ���ϴ� ����
