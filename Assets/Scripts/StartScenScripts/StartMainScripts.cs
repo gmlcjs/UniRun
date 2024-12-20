@@ -10,13 +10,26 @@ public class StartMainScripts : MonoBehaviour
     public GameObject infoText;  // InfoText 오브젝트를 연결할 변수
     [SerializeField] TextMeshProUGUI recordText;    //최고 기록 출력
 
+
     void Update()
     {
-        // 마우스 왼쪽 버튼 클릭 감지 (0은 왼쪽 버튼)
-        if (Input.GetMouseButtonDown(0)) { SceneManager.LoadScene("MainScen"); }
+        // 마우스 왼쪽 버튼 클릭 감지 (0은 왼쪽 버튼)  or 터치 감지 (화면에 터치가 있을 때)
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0) {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            // Raycast2D를 사용해 충돌한 오브젝트 감지
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
-        // 터치 감지 (화면에 터치가 있을 때)
-        if (Input.touchCount > 0) { SceneManager.LoadScene("MainScen"); }
+            if (hit.collider != null)
+            {
+                //Debug.Log($"선택한 오브젝트 : {hit.collider.gameObject.name}");
+                SelectCharacter.selectCharacter = hit.collider.gameObject.name; // 선택한 캐릭터 이름 저장
+                SelectCharacter.instance.intputPlayer();
+                SceneManager.LoadScene("MainScen");
+            }
+
+            
+        }
+
     }
 
     void Start()

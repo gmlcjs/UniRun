@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;             //싱글턴을 할당할 전역변수
 
+    Vector3 spawnPosition = new Vector3(-7, 1, 0); // 시작위치
+
     public bool isGameOver = false;                 //게임오버 상태
     [SerializeField] TextMeshProUGUI scoreText;     //점수를 출력한 TextUI
     //[SerializeField] GameObject titleText;          //게임 시작할 때 보여지는 오브젝트
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
     public static int score = 0;                                  //게임 점수
     public int publicScore = 0; // 전역 스코어
 
+    public GameObject basicCharacter; // 기본캐릭터
     // 기본설정
     public static float speed = 10; // 스피드(이속 설정)
     public static float jumpForce = 500f; // 점프힘
@@ -25,11 +28,25 @@ public class GameManager : MonoBehaviour
     public static int labelUp = 10; // 10 스코어부터 변경
 
     public static bool isGameStart = false;         //게임 시작 여부 확인 변수
-    [SerializeField] BackGroundLoop backGroundLoop;
+    [SerializeField] BackGroundLoop backGroundLoop; // 백그라운드
+
+
+
+
 
     //게임 시작과 인스턴스를 할당하고
     void Awake()
     {
+        SelectCharacter.instance.intputPlayer();
+        if (SelectCharacter.instance.Player != null)
+        {
+            Instantiate(SelectCharacter.instance.Player, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            basicCharacter.SetActive(true); // 캐릭터가 선택안되어있을때 기본캐릭터 출력
+        }
+
         //싱글턴 변수 instance가 null인지 확인
         if (instance == null)
         {
