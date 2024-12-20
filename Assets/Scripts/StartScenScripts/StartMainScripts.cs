@@ -21,13 +21,12 @@ public class StartMainScripts : MonoBehaviour
 
             if (hit.collider != null)
             {
-                //Debug.Log($"선택한 오브젝트 : {hit.collider.gameObject.name}");
                 SelectCharacter.selectCharacter = hit.collider.gameObject.name; // 선택한 캐릭터 이름 저장
                 SelectCharacter.instance.intputPlayer();
-                SceneManager.LoadScene("MainScen");
             }
+            SceneManager.LoadScene("MainScen");
 
-            
+
         }
 
     }
