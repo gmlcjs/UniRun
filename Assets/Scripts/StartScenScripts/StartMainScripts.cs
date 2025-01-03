@@ -18,13 +18,12 @@ public class StartMainScripts : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             // Raycast2D를 사용해 충돌한 오브젝트 감지
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-            if (hit.collider != null)
+            if (hit.collider != null && hit.collider.CompareTag("Player"))
             {
                 SelectCharacter.selectCharacter = hit.collider.gameObject.name; // 선택한 캐릭터 이름 저장
                 SelectCharacter.instance.intputPlayer();
+                SceneManager.LoadScene("MainScen");
             }
-            SceneManager.LoadScene("MainScen");
 
 
         }
